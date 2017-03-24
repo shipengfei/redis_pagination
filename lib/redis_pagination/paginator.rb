@@ -14,16 +14,16 @@ module RedisPagination
     # @return Returns either a +RedisPagination::Paginator::ListPaginator+ or 
     #   a +RedisPagination::Paginator::SortedSetPaginator+ depending on the 
     #   type of +key+.
-    def paginate(key, options = {})
-      type = RedisPagination.redis.type(key)
+    def paginate(key, options = {}, redis_config_key = :default)
+      type = RedisPagination.redis(redis_config_key).type(key)
 
       case type
       when 'list'
-        RedisPagination::Paginator::ListPaginator.new(key, options)
+        RedisPagination::Paginator::ListPaginator.new(key, options, redis_config_key)
       when 'zset'
-        RedisPagination::Paginator::SortedSetPaginator.new(key, options)
+        RedisPagination::Paginator::SortedSetPaginator.new(key, options, redis_config_key)
       when 'none'
-        RedisPagination::Paginator::NonePaginator.new(key, options)
+        RedisPagination::Paginator::NonePaginator.new(key, options, redis_config_key)
       else
         raise "Pagination is not supported for #{type}"
       end

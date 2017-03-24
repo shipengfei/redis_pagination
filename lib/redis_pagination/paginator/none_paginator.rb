@@ -5,7 +5,7 @@ module RedisPagination
       #
       # @param key [String] Redis key.
       # @param options [Hash] Options for paginator.
-      def initialize(key, options = {})
+      def initialize(key, options = {}, redis_config_key = :default)
       end
 
       # Return the total number of pages for +key+.
