@@ -10,7 +10,7 @@ check out the [Redis documentation](http://redis.io/documentation) for more info
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'redis_pagination'
+gem 'redis_pagination', :git => 'https://github.com/shipengfei/redis_pagination.git'
 ```
 
 And then execute:
@@ -22,7 +22,7 @@ $ bundle
 Or install it yourself as:
 
 ```
-$ gem install redis_pagination
+$ gem install redis_pagination -i https://github.com/shipengfei/redis_pagination.git
 ```
 
 ## Usage
@@ -34,6 +34,14 @@ RedisPagination.configure do |configuration|
   configuration.redis = Redis.new
   configuration.page_size = 25
 end
+
+RedisPagination.configure do |configuration|
+  configuration.redises = {
+    :default => Redis.new,
+    :my_redis => Redis.new
+  }
+  configuration.page_size = 25
+end
 ```
 
 Use redis_pagination:
@@ -42,7 +50,10 @@ Use redis_pagination:
 require 'redis_pagination'
 
 RedisPagination.configure do |configuration|
-  configuration.redis = Redis.new(:db => 15)
+  configuration.redises = {
+    :default => Redis.new,
+    :my_redis => Redis.new
+  }
   configuration.page_size = 25
 end
 
